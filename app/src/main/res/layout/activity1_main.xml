@@ -9,13 +9,13 @@
     tools:context="xsf.linttest.MainActivity">
 
     <Button
-        android:id="@+id/buttonOne"
+        android:id="@+id/One"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="click"/>
 
     <TextView
-        android:id="@+id/textShow"
+        android:id="@+id/Show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

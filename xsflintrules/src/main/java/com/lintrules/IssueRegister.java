@@ -2,8 +2,12 @@ package com.lintrules;
 
 import com.android.tools.lint.client.api.IssueRegistry;
 import com.android.tools.lint.detector.api.Issue;
-import com.lintrules.detectors.ActivityFragmentLayoutNameDetector;
-import com.lintrules.detectors.LoggerUsageDetector;
+import com.lintrules.detectors.XsfActivityFragmentLayoutNameDetector;
+import com.lintrules.detectors.XsfBaseActvityDetector;
+import com.lintrules.detectors.XsfCustomToastDetector;
+import com.lintrules.detectors.XsfMessageObtainDetector;
+import com.lintrules.detectors.XsfLogDetector;
+import com.lintrules.detectors.XsfViewIdNameDetector;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +24,13 @@ public class IssueRegister extends IssueRegistry {
     public List<Issue> getIssues() {
         System.out.println("*******XSF LINT RULES WORKS*******");
         return Arrays.asList(
-                LoggerUsageDetector.ISSUE,
-                ActivityFragmentLayoutNameDetector.ACTIVITY_LAYOUT_NAME_ISSUE,
-                ActivityFragmentLayoutNameDetector.FRAGMENT_LAYOUT_NAME_ISSUE
+                XsfActivityFragmentLayoutNameDetector.ACTIVITY_LAYOUT_NAME_ISSUE,
+                XsfActivityFragmentLayoutNameDetector.FRAGMENT_LAYOUT_NAME_ISSUE,
+                XsfMessageObtainDetector.ISSUE,
+                XsfCustomToastDetector.ISSUE,
+                XsfLogDetector.ISSUE,
+                XsfViewIdNameDetector.ISSUE,
+                XsfBaseActvityDetector.ISSUE
         );
     }
 }

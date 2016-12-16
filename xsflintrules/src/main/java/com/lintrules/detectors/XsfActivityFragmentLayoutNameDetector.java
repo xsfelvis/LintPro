@@ -15,6 +15,7 @@ import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,25 +26,45 @@ import lombok.ast.Node;
 import lombok.ast.StrictListAccessor;
 
 
-public class ActivityFragmentLayoutNameDetector extends Detector
+public class XsfActivityFragmentLayoutNameDetector extends Detector
         implements Detector.JavaScanner {
-    public static final Issue ACTIVITY_LAYOUT_NAME_ISSUE = Issue.create("ActivityLayoutNamePrefixGone",
-            "You should name an activity-layout file with prefix `activity_`",
-            "You should name an activity-layout file with prefix `activity_`. For example, `activity_function.xml`.",
-            Category.MESSAGES,
-            9,
-            Severity.ERROR,
-            new Implementation(ActivityFragmentLayoutNameDetector.class,
-                    Scope.JAVA_FILE_SCOPE));
+    private static final Class<? extends Detector> DETECTOR_CLASS = XsfActivityFragmentLayoutNameDetector.class;
+    private static final EnumSet<Scope> DETECTOR_SCOPE = Scope.JAVA_FILE_SCOPE;
+    private static final Implementation IMPLEMENTATION = new Implementation(
+            DETECTOR_CLASS,
+            DETECTOR_SCOPE
+    );
 
-    public static final Issue FRAGMENT_LAYOUT_NAME_ISSUE = Issue.create("FragmentLayoutNamePrefixGone",
-            "You should name an fragment-layout file with prefix `fragment_`",
-            "You should name an fragment-layout file with prefix `fragment_`. For example, `fragment_function.xml`.",
-            Category.MESSAGES,
-            9,
-            Severity.ERROR,
-            new Implementation(ActivityFragmentLayoutNameDetector.class,
-                    Scope.JAVA_FILE_SCOPE));
+    private static final String ISSUE_ACTIVITY_ID = "LayoutNamePrefixError";
+    private static final String ISSUE_ACTIVITY_DESCRIPTION = "FBI WARING!:You should name an activity-layout file with prefix {activity_}";
+    private static final String ISSUE_ACTIVITY_EXPLANATION = "FBI WARING!:You should name an activity-layout file with prefix {activity_}. For example, `activity_function.xml`.";
+    private static final String ISSUE_FRAGMENT_ID = "LayoutNamePrefixError";
+    private static final String ISSUE_FRAGMENT_DESCRIPTION = "FBI WARING!:You should name an fragment-layout file with prefix {fragment_}";
+    private static final String ISSUE_FRAGMENT_EXPLANATION = "FBI WARING!:You should name an fragment-layout file with prefix {fragment_}. For example, `fragment_function.xml`.";
+
+    private static final Category ISSUE_CATEGORY = Category.MESSAGES;
+    private static final int ISSUE_PRIORITY = 9;
+    private static final Severity ISSUE_SEVERITY = Severity.WARNING;
+
+    public static final Issue ACTIVITY_LAYOUT_NAME_ISSUE = Issue.create(
+            ISSUE_ACTIVITY_ID,
+            ISSUE_ACTIVITY_DESCRIPTION,
+            ISSUE_ACTIVITY_EXPLANATION,
+            ISSUE_CATEGORY,
+            ISSUE_PRIORITY,
+            ISSUE_SEVERITY,
+            IMPLEMENTATION
+    );
+
+    public static final Issue FRAGMENT_LAYOUT_NAME_ISSUE = Issue.create(
+            ISSUE_FRAGMENT_ID,
+            ISSUE_FRAGMENT_DESCRIPTION,
+            ISSUE_FRAGMENT_EXPLANATION,
+            ISSUE_CATEGORY,
+            ISSUE_PRIORITY,
+            ISSUE_SEVERITY,
+            IMPLEMENTATION
+    );
 
 
     @Override
@@ -63,7 +84,7 @@ public class ActivityFragmentLayoutNameDetector extends Detector
                 Expression argument = arguments.next();
 
                 if (argument == null) {
-                    System.out.println("Custom Lint Error:Some thing went wrong in ActivityFragmentLayoutNameDetector.visitMethod:\n\targument of setContentView is null");
+                    System.out.println("Custom Lint Error:Some thing went wrong in XsfActivityFragmentLayoutNameDetector.visitMethod:\n\targument of setContentView is null");
                     return;
                 }
 
@@ -72,7 +93,7 @@ public class ActivityFragmentLayoutNameDetector extends Detector
                     context.report(ACTIVITY_LAYOUT_NAME_ISSUE,
                             node,
                             context.getLocation(node),
-                            "You should name an activity-layout file with prefix `activity_`");
+                            ISSUE_ACTIVITY_DESCRIPTION);
                 }
 
             }
@@ -90,7 +111,7 @@ public class ActivityFragmentLayoutNameDetector extends Detector
                     context.report(FRAGMENT_LAYOUT_NAME_ISSUE,
                             node,
                             context.getLocation(node),
-                            "You should name an fragment-layout file with prefix `fragment_`");
+                            ISSUE_FRAGMENT_DESCRIPTION);
                 }
             }
 
